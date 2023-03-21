@@ -1,49 +1,35 @@
 import React from "react";
+import DeleteAllUser from "./DeleteAllUsers.jsx";
 import styled from "styled-components";
-import DeleteUsers from "./DeleteUsers";
-import { FakeUserData } from "../API";
-import { useDispatch, useSelector } from "react-redux";
-import { addUser,deleteUsers, removeUser } from "../store/Slices/UserSlices";
+import {useDispatch} from "react-redux";
+import { addUser } from "../store/Slices/UserSlices.jsx";
+//import DisplayUsers from "../components/DisplayUsers"
+import DisplayUsers from "./DisplayUsers.jsx";
+import fakeUserData from '../API/index.jsx'
+
+
 const UserDetails = () => {
-  const select = useSelector((data) => {
-    return data.users;
-  });
-  const dispatch = useDispatch();
 
-  //console.log(select);
-  const addNewUsers = (name) => {
-    dispatch(addUser(name));
-  };
+  const dispatch = useDispatch()
 
-  //Delete
+  const addNewUser = (name ) => {
+    dispatch(addUser(name))
 
-  const Delete=(val)=>{
-       dispatch(deleteUsers(val))
+    console.log(name)
   }
 
-  //Delete All
-  const DeleteAll=()=>{
-    dispatch(removeUser())
-  }
   return (
     <Wrapper>
       <div className="content">
         <div className="admin-table">
           <div className="admin-subtitle">List of User Details</div>
-          <button
-            className="btn add-btn"
-            onClick={() => addNewUsers(FakeUserData())}
-          >
-            Add New Users
-          </button>
+          <button className="btn add-btn" onClick={() => addNewUser(fakeUserData())}>Add New Users</button>
         </div>
-       {select.map((val,k)=>
-       <ul key={k}>
-        <li>{val} <button onClick={()=>Delete(val)}>Delete</button></li>
-       </ul>)}
+        <ul>
+          <DisplayUsers/>
+        </ul>
         <hr />
-        <button onClick={()=>{DeleteAll()}}>All Delete</button>
-        <DeleteUsers />
+        <DeleteAllUser />
       </div>
     </Wrapper>
   );
@@ -84,4 +70,5 @@ const Wrapper = styled.section`
     }
   }
 `;
+
 export default UserDetails;
